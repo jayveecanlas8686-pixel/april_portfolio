@@ -578,6 +578,31 @@ p {
   color: rgba(255, 255, 255, 0.15);
 }
 
+.service-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.service-list li {
+  position: relative;
+  padding-left: var(--space-md);
+  font-size: 0.9rem;
+  color: rgba(255, 255, 255, 0.55);
+  line-height: 1.5;
+}
+
+.service-list li::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 9px;
+  width: 10px;
+  height: 1px;
+  background: var(--color-accent);
+}
+
 /* ========================================
    CREDENTIALS
    ======================================== */
