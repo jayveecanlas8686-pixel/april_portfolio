@@ -1,14 +1,10 @@
-/* ========================================
-   APRIL ROSE A. BIGTASIN — Portfolio JS
-   ======================================== */
-
 (function () {
   'use strict';
 
-  // --- Scroll reveal (Intersection Observer) ---
-  const revealElements = document.querySelectorAll('.reveal');
+  // --- Scroll reveal ---
+  var revealElements = document.querySelectorAll('.reveal');
 
-  const revealObserver = new IntersectionObserver(
+  var revealObserver = new IntersectionObserver(
     function (entries) {
       entries.forEach(function (entry) {
         if (entry.isIntersecting) {
@@ -17,25 +13,22 @@
         }
       });
     },
-    { threshold: 0.1, rootMargin: '0px 0px -40px 0px' }
+    { threshold: 0.12, rootMargin: '0px 0px -50px 0px' }
   );
 
   revealElements.forEach(function (el) {
     revealObserver.observe(el);
   });
 
-  // --- Navbar scroll effect ---
+  // --- Navbar scroll ---
   var nav = document.querySelector('.nav');
-  var lastScrollY = 0;
 
   function handleNavScroll() {
-    var scrollY = window.scrollY;
-    if (scrollY > 50) {
+    if (window.scrollY > 60) {
       nav.classList.add('scrolled');
     } else {
       nav.classList.remove('scrolled');
     }
-    lastScrollY = scrollY;
   }
 
   window.addEventListener('scroll', handleNavScroll, { passive: true });
@@ -61,30 +54,30 @@
     });
   }
 
-  // --- Active nav link highlight on scroll ---
+  // --- Active nav link on scroll ---
   var sections = document.querySelectorAll('section[id]');
+  var navLinksAll = document.querySelectorAll('.nav-links a');
 
   function highlightNavLink() {
-    var scrollY = window.scrollY + 100;
+    var scrollY = window.scrollY + 120;
 
     sections.forEach(function (section) {
-      var sectionTop = section.offsetTop;
-      var sectionHeight = section.offsetHeight;
-      var sectionId = section.getAttribute('id');
+      var top = section.offsetTop;
+      var height = section.offsetHeight;
+      var id = section.getAttribute('id');
 
-      if (scrollY >= sectionTop && scrollY < sectionTop + sectionHeight) {
-        document.querySelectorAll('.nav-links a').forEach(function (a) {
-          a.classList.remove('active');
-        });
-        var activeLink = document.querySelector('.nav-links a[href="#' + sectionId + '"]');
-        if (activeLink) activeLink.classList.add('active');
+      if (scrollY >= top && scrollY < top + height) {
+        navLinksAll.forEach(function (a) { a.classList.remove('active'); });
+        var active = document.querySelector('.nav-links a[href="#' + id + '"]');
+        if (active) active.classList.add('active');
       }
     });
   }
 
   window.addEventListener('scroll', highlightNavLink, { passive: true });
+  highlightNavLink();
 
-  // --- Simple form handling (mailto fallback) ---
+  // --- Contact form (mailto) ---
   var contactForm = document.getElementById('contact-form');
   if (contactForm) {
     contactForm.addEventListener('submit', function (e) {
@@ -95,20 +88,14 @@
       var subject = contactForm.querySelector('[name="subject"]').value;
       var message = contactForm.querySelector('[name="message"]').value;
 
-      var mailtoLink =
+      window.location.href =
         'mailto:aprielleseventeen@gmail.com' +
         '?subject=' + encodeURIComponent(subject || 'Website Inquiry') +
-        '&body=' + encodeURIComponent(
-          'Name: ' + name + '\nEmail: ' + email + '\n\n' + message
-        );
-
-      window.location.href = mailtoLink;
+        '&body=' + encodeURIComponent('Name: ' + name + '\nEmail: ' + email + '\n\n' + message);
     });
   }
 
-  // --- Year in footer ---
+  // --- Footer year ---
   var yearEl = document.getElementById('current-year');
-  if (yearEl) {
-    yearEl.textContent = new Date().getFullYear();
-  }
+  if (yearEl) yearEl.textContent = new Date().getFullYear();
 })();
